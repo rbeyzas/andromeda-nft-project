@@ -16,7 +16,6 @@ import { Award, BookOpen, Building2, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
-// Demo veri - normalde API/blockchain'den alınır
 const mockInstitutions = [
   {
     id: 'inst-001',
@@ -217,7 +216,6 @@ export default function CertificatePage() {
 
       <Divider />
 
-      {/* Institutions Section */}
       <Box py={8} id="institutions">
         <InstitutionsList institutions={mockInstitutions} showAddButton={true} />
       </Box>

@@ -39,11 +39,9 @@ export const CertificatesList: FC<CertificatesListProps> = ({
 
   const bgColor = useColorModeValue('gray.50', 'gray.900');
 
-  // Filter and sort certificates
   const filteredCertificates = useMemo(() => {
     let result = [...certificates];
 
-    // Apply search filter
     if (searchTerm) {
       const lowerSearch = searchTerm.toLowerCase();
       result = result.filter(
@@ -55,7 +53,6 @@ export const CertificatesList: FC<CertificatesListProps> = ({
       );
     }
 
-    // Apply sorting
     result.sort((a, b) => {
       if (sortBy === 'newest' && a.extension.issue_date && b.extension.issue_date) {
         return (

@@ -110,7 +110,6 @@ export const CreateCertificate: FC<CreateCertificateProps> = ({
       newErrors.recipient_address = 'Recipient wallet address is required';
     if (!form.issue_date) newErrors.issue_date = 'Issue date is required';
 
-    // Validate attributes
     const invalidAttributes = form.attributes.some((attr) => !attr.trait_type || !attr.value);
     if (invalidAttributes) {
       toast({

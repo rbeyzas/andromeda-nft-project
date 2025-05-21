@@ -1,18 +1,8 @@
 'use client';
-import { CertificatesList } from '@/modules/certificate/components/CertificatesList';
+import { CertificateDetails } from '@/modules/certificate/components/CertificateDetails';
 import { ICertificate, ICertificateCollection } from '@/modules/certificate/types';
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  HStack,
-  Heading,
-  Icon,
-  Text,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { Box, Button, Container, Heading, Text } from '@chakra-ui/react';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { useMemo } from 'react';
@@ -85,29 +75,28 @@ const mockCollections: ICertificateCollection[] = [
       },
     ],
   },
-  {
-    name: 'Business Management Certifications',
-    symbol: 'BMC',
-    cw721: 'cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalb',
-    certificates: [],
-  },
 ];
 
-export default function CollectionPage() {
-  const params = useParams<{ address: string }>();
-  const address = params?.address || '';
+export default function CertificateDetailPage() {
+  const params = useParams<{ collection: string; id: string }>();
+  const collectionAddress = params?.collection || '';
+  const certificateId = params?.id || '';
 
-  const collection = useMemo(() => {
-    return mockCollections.find((c) => c.cw721 === address);
-  }, [address]);
+  const { collection, certificate } = useMemo(() => {
+    const foundCollection = mockCollections.find((c) => c.cw721 === collectionAddress);
+    if (!foundCollection) return { collection: null, certificate: null };
 
-  if (!collection) {
+    const foundCertificate = foundCollection.certificates.find((cert) => cert.id === certificateId);
+    return { collection: foundCollection, certificate: foundCertificate };
+  }, [collectionAddress, certificateId]);
+
+  if (!collection || !certificate) {
     return (
       <Container maxW="container.xl" py={10}>
         <Box textAlign="center" py={10}>
-          <Heading mb={4}>Collection Not Found</Heading>
+          <Heading mb={4}>Certificate Not Found</Heading>
           <Text mb={6}>
-            The certificate collection you&apos;re looking for does not exist or has been removed.
+            The certificate you&apos;re looking for does not exist or has been removed.
           </Text>
           <Button as={Link} href="/certificate" leftIcon={<ArrowLeft size={18} />}>
             Back to Certificates
@@ -120,42 +109,22 @@ export default function CollectionPage() {
   return (
     <Box>
       <Container maxW="container.xl" py={6}>
-        <HStack mb={6}>
-          <Button
-            as={Link}
-            href="/certificate"
-            variant="ghost"
-            leftIcon={<ArrowLeft size={18} />}
-            size="sm"
-          >
-            Back
-          </Button>
-        </HStack>
-
-        <Flex justify="space-between" align="center" mb={8}>
-          <Box>
-            <Heading size="xl">{collection.name}</Heading>
-            <Text color="gray.600">
-              Contract: {collection.cw721.substring(0, 8)}...
-              {collection.cw721.substring(collection.cw721.length - 8)}
-            </Text>
-          </Box>
-
-          <Button
-            as={Link}
-            href={`/certificate/create?collection=${collection.cw721}`}
-            colorScheme="blue"
-            leftIcon={<Plus size={18} />}
-          >
-            Create Certificate
-          </Button>
-        </Flex>
+        <Button
+          as={Link}
+          href={`/certificate/collection/${collection.cw721}`}
+          variant="ghost"
+          leftIcon={<ArrowLeft size={18} />}
+          size="sm"
+          mb={6}
+        >
+          Back to Collection
+        </Button>
       </Container>
 
-      <CertificatesList
-        certificates={collection.certificates}
-        collection={collection}
-        title={`${collection.name} (${collection.symbol})`}
+      <CertificateDetails
+        certificate={certificate}
+        collectionAddress={collection.cw721}
+        collectionName={collection.name}
       />
     </Box>
   );

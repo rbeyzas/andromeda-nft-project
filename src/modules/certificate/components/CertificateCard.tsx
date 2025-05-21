@@ -33,7 +33,6 @@ export const CertificateCard: FC<CertificateCardProps> = ({
     extension: { image, certificate_name, institution_name, recipient_name, issue_date },
   } = certificate;
 
-  // Format date if available
   const formattedDate = issue_date ? new Date(issue_date).toLocaleDateString() : '';
 
   return (

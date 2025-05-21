@@ -34,7 +34,6 @@ export const InstitutionsList: FC<InstitutionsListProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const bgColor = useColorModeValue('gray.50', 'gray.900');
 
-  // Filter institutions
   const filteredInstitutions = useMemo(() => {
     if (!searchTerm) return institutions;
 

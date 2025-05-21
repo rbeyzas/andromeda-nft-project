@@ -60,7 +60,6 @@ export const CertificateDetails: FC<CertificateDetailsProps> = ({
 
   const formattedDate = issue_date ? new Date(issue_date).toLocaleDateString() : '';
 
-  // Clipboard for copying certificate ID
   const { hasCopied, onCopy } = useClipboard(id);
 
   return (
@@ -76,7 +75,6 @@ export const CertificateDetails: FC<CertificateDetailsProps> = ({
           borderWidth="1px"
           shadow="sm"
         >
-          {/* Left Column - Certificate Image */}
           <Box
             width={{ base: '100%', md: '40%' }}
             position="relative"
@@ -127,7 +125,6 @@ export const CertificateDetails: FC<CertificateDetailsProps> = ({
             </Badge>
           </Box>
 
-          {/* Right Column - Certificate Details */}
           <VStack align="stretch" spacing={6} width={{ base: '100%', md: '60%' }}>
             <Box>
               <HStack mb={2}>
